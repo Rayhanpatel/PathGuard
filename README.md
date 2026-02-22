@@ -31,6 +31,12 @@ Our approach layers multiple techniques so that each one adds intelligence witho
 
 ---
 
+## Project Report
+
+For detailed technical documentation, architecture diagrams, and evaluation results, see the [PathGuard Report](PathGuard_Report.pdf). 
+
+---
+
 ## Process -- How We Got Here
 
 We started with a single GroundedDINO detector running on every frame. It worked on clean, well-lit footage -- and fell apart on real bodycam video. Shaky camera motion produced blurred frames that generated phantom detections. Objects outside the walking path triggered constant false alarms. Inference latency meant the safety layer went silent for hundreds of milliseconds between frames.
