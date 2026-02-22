@@ -64,7 +64,7 @@ def load_dino_prompt_file(filepath: str) -> List[str]:
 def merge_prompts(
     static: List[str],
     dynamic: List[str],
-    max_prompts: int = 256,
+    max_prompts: int = 50,
 ) -> List[str]:
     """Merge static (default) and dynamic (Cactus-generated) prompt lists.
 

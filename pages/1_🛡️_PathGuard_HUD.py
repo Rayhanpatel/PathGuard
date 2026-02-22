@@ -5,7 +5,6 @@ from pathlib import Path
 
 import streamlit as st
 
-from integration.dynamic_prompts import _discover_dino_prompt_files
 from integration.enriched_telemetry import enrich_rcp_with_spatial_data
 from pathguard.audio_alerts import AudioAlerter
 from pathguard.config import DEFAULT_VIDEO_PATH, CorridorParams, RuntimeParams, load_dynamic_prompts
@@ -168,7 +167,13 @@ if start:
             
             # Look for a matching RCP file from Cactus
             stem = Path(video_path).stem
+            
+            # If the user is running the live webcam ("0"), grab the newest webcam session RCP
             rcp_path = Path(f"transcripts/{stem}_rcp.json")
+            if str(video_path) == "0":
+                webcam_files = sorted(glob.glob("transcripts/webcam_session_*_rcp.json"))
+                if webcam_files:
+                    rcp_path = Path(webcam_files[-1])
             
             if rcp_path.exists():
                 try:
