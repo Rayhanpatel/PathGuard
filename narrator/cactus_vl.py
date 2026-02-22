@@ -189,7 +189,7 @@ class CactusVL:
             )
 
         try:
-            print(f"RAW NPU OUTPUT: {raw}"); local_out = json.loads(raw)
+            local_out = json.loads(raw)
             local_success = local_out.get("success", True)  # Some old bindings don't explicitly return 'success'
             local_conf = local_out.get("confidence", 1.0)
             

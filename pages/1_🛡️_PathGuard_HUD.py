@@ -108,12 +108,11 @@ if start:
     try:
         for out in process_video(video_path, cfg, stop_flag_fn=_stop):
             status_slot.markdown(_status_chip(out["state"]), unsafe_allow_html=True)
-            metrics_slot.columns(4)
-            c1, c2, c4, c5 = metrics_slot.columns(4)
+            c1, c2, c3, c4 = metrics_slot.columns(4)
             c1.metric("FPS", f"{out['fps']:.1f}")
             c2.metric("Occupancy", f"{out['occupancy_score']:.3f}")
-            c4.metric("Relative distance", str(out["last_distance_bucket"]) if out["last_distance_bucket"] else "-")
-            c5.metric("Depth", str(out["depth_status"]))
+            c3.metric("Relative distance", str(out["last_distance_bucket"]) if out["last_distance_bucket"] else "-")
+            c4.metric("Depth", str(out["depth_status"]))
             state = str(out["state"])
             if alerter is not None and state == "TRIP RISK" and prev_state != "TRIP RISK":
                 alerter.alert(state)
