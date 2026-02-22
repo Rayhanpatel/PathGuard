@@ -480,7 +480,9 @@ The integration between PathGuard HUD and Cactus Narrator is **real but manually
 - **Performance evaluation based on generated prompts.** Measure detection recall and precision of dynamic Cactus-generated prompts vs. the static defaults to quantify the gain from scene-adaptive prompt generation.
 
 ---
-
+## Video Demonstration
+[![PathGuard Demo](https://img.youtube.com/vi/Zr4QqsBu43g/0.jpg)](https://youtu.be/Zr4QqsBu43g?si=IwBYbRIx7jrBg2-9)
+---
 ## Closing Note
 
 PathGuard was built for the UMD x Ironsite Startup Shell Hackathon 2026. The core conviction is that spatial safety on construction sites should not depend on any single model being available, fast, or correct. Every layer in this system -- from Canny edges to Gemini 2.5 Pro -- is optional. The system gets better as you add layers, but it never goes dark when you remove them.
