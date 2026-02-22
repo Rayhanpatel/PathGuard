@@ -367,6 +367,7 @@ elif input_source == "Video File" and uploaded_video is not None:
                     ])
                     
                     if full_text.strip():
+                        vl = get_vlm(model_dir)
                         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
                             future_dino = executor.submit(vl.generate_dino_prompt, full_text, dino_max_tokens)
                             future_rcp = executor.submit(vl.generate_rcp_telemetry, rcp_text)
