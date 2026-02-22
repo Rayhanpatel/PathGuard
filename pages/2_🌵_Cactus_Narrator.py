@@ -80,7 +80,7 @@ with st.sidebar:
     model_dir = _normalize_weights_dir(st.text_input("Local model weights directory", value=DEFAULT_MODEL_DIR))
 
     sample_every = st.slider("Analyze every N seconds", 0.3, 5.0, 5.0, 0.1)
-    max_tokens = st.slider("Max tokens", 32, 256, 96, 16)
+    max_tokens = st.slider("Max tokens", 32, 256, 256, 16)
     temperature = st.slider("Temperature", 0.0, 1.0, 0.1, 0.05)
     short_side = st.slider("Resize short side (px)", 128, 512, 256, 32)
     

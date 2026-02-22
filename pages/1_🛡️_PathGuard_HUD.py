@@ -1,8 +1,12 @@
 import os
 import glob
+import json
+from pathlib import Path
 
 import streamlit as st
 
+from integration.dynamic_prompts import _discover_dino_prompt_files
+from integration.enriched_telemetry import enrich_rcp_with_spatial_data
 from pathguard.audio_alerts import AudioAlerter
 from pathguard.config import DEFAULT_VIDEO_PATH, CorridorParams, RuntimeParams, load_dynamic_prompts
 from pathguard.realtime import PipelineRuntime, process_video
@@ -157,6 +161,41 @@ if start:
                 events_slot.dataframe(rows, use_container_width=True, hide_index=True)
             else:
                 events_slot.write("No events yet.")
+                
+        # On video finish, attempt to merge and download enriched telemetry
+        if rows:
+            st.success("✅ Playback complete. Processing spatial telemetry...")
+            
+            # Look for a matching RCP file from Cactus
+            stem = Path(video_path).stem
+            rcp_path = Path(f"transcripts/{stem}_rcp.json")
+            
+            if rcp_path.exists():
+                try:
+                    with open(rcp_path, "r") as f:
+                        cactus_rcp = json.load(f)
+                        
+                    # Enrich with the final spatial state
+                    enriched_data = enrich_rcp_with_spatial_data(
+                        rcp_json=cactus_rcp,
+                        pathguard_events=rows,
+                        final_occupancy=rows[-1].get("occupancy_score", 0.0) if rows else 0.0,
+                        final_depth_bucket="FAR" # Default fallback
+                    )
+                    
+                    st.download_button(
+                        label="⬇️ Download Enriched Telemetry (JSON)",
+                        data=json.dumps(enriched_data, indent=2),
+                        file_name=f"{stem}_enriched_telemetry.json",
+                        mime="application/json",
+                        help="Contains both Cactus scene understanding and PathGuard spatial metrics.",
+                        type="primary"
+                    )
+                except Exception as e:
+                    st.warning(f"Could not merge telemetry: {e}")
+            else:
+                st.info(f"No Cactus RCP file found at {rcp_path}. Run this video through the Cactus Narrator first to generate a combined telemetry report.")
+                
     except Exception as exc:
         st.error(f"Pipeline error: {exc}")
 else:
