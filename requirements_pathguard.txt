@@ -1,0 +1,21 @@
+# Python version: 3.11
+# PathGuard Spatial Safety HUD — GPU/CUDA dependencies
+# Install: pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+#          pip install -r requirements_pathguard.txt
+
+# Core
+streamlit>=1.31
+opencv-python>=4.8
+numpy>=1.24
+pillow>=10.0
+tqdm>=4.60
+
+# ML Models (GroundedDINO + Depth Anything V2 + SAM2)
+torch>=2.0
+torchvision>=0.15
+transformers>=4.40
+# groundeddino_vl>=1.1.0   # Optional: PyPI GroundedDINO backend (uncomment if available)
+# sam2>=1.0                 # Optional: SAM2 segmentation refinement (uncomment if available)
+
+# Integration
+python-dotenv>=1.0.1

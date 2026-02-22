@@ -1,0 +1,23 @@
+# Core Application
+streamlit>=1.31
+streamlit-webrtc>=0.47
+pillow>=10.0
+numpy>=1.24
+python-dotenv>=1.0.1
+requests>=2.31.0
+
+# Video Processing
+av>=12.0.0
+opencv-python>=4.8
+
+# On-Device Inference (Cactus Engine Python bindings)
+torch>=2.0
+torchvision>=0.15
+safetensors>=0.4
+huggingface_hub>=0.20
+
+# Model Conversion Dependencies
+num2words>=0.5.13
+
+# LLM Output Hardening
+json-repair>=0.50
