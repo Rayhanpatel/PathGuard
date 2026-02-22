@@ -64,27 +64,32 @@ def load_dino_prompt_file(filepath: str) -> List[str]:
 def merge_prompts(
     static: List[str],
     dynamic: List[str],
+    max_prompts: int = 50,
 ) -> List[str]:
     """Merge static (default) and dynamic (Cactus-generated) prompt lists.
 
     Dynamic prompts are prepended (higher priority for scene-specific labels),
     followed by static prompts not already in the dynamic set.
+    Capped at max_prompts to avoid GroundedDINO tokenizer overflow.
 
     Args:
         static:  Default PathGuard prompts from config.PROMPTS.
         dynamic: Cactus-generated prompts from a DINO prompt file.
+        max_prompts: Maximum number of prompts (default 50).
 
     Returns:
-        Merged, deduplicated list with dynamic prompts first.
+        Merged, deduplicated list with dynamic prompts first, capped.
     """
     if not dynamic:
-        return list(static)
+        return list(static)[:max_prompts]
 
     seen = set()
     result = []
 
     # Dynamic first (scene-specific, higher priority)
     for prompt in dynamic:
+        if len(result) >= max_prompts:
+            break
         key = prompt.lower().strip()
         if key and key not in seen:
             seen.add(key)
@@ -92,6 +97,8 @@ def merge_prompts(
 
     # Static second (fill in anything the dynamic list missed)
     for prompt in static:
+        if len(result) >= max_prompts:
+            break
         key = prompt.lower().strip()
         if key and key not in seen:
             seen.add(key)

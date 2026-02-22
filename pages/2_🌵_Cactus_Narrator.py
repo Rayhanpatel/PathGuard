@@ -147,13 +147,15 @@ st.subheader("Real-Time Transcript")
 transcript_container = st.container(height=300)
 transcript_box = transcript_container.empty()
 
-# Load the model via the cached function instead of session state
-vl = get_vlm(model_dir)
+# VLM model will be lazy-loaded only when processing starts
 
 transcript_history = []
 
 # helper for inference and UI updates
 def _run_inference(frame_rgb: np.ndarray, video_timestamp: Optional[float] = None, transcript_data_list: Optional[list] = None):
+    # Lazy load VLM right before first inference
+    vl = get_vlm(model_dir)
+    
     img = _resize_for_vlm(frame_rgb, target_short_side=short_side)
     frame_box.image(img, caption="Analyzing this frame...")
 
@@ -423,6 +425,9 @@ if input_source == "Live Webcam" and st.session_state.get("webcam_transcript"):
             ])
             
             if full_text.strip():
+                # Lazy load VLM for summarization as well
+                vl = get_vlm(model_dir)
+                
                 with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
                     future_dino = executor.submit(vl.generate_dino_prompt, full_text, dino_max_tokens)
                     future_rcp = executor.submit(vl.generate_rcp_telemetry, rcp_text)

@@ -8,6 +8,7 @@ def discover_video_paths() -> List[str]:
     roots = []
     for base in local_roots:
         roots.append(base / "data_ironsite_hackathon")
+        roots.append(base / "video")
         if base.exists() and base.is_dir():
             for child in base.iterdir():
                 if child.is_dir() and child.name.lower().replace(" ", "").startswith("data_ironsite_hackatho"):

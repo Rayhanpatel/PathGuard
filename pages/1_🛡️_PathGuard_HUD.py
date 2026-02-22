@@ -53,15 +53,7 @@ with st.sidebar:
     enable_trip_alarm = st.checkbox("Trip Risk alarm", value=True)
     alarm_cooldown = st.slider("Alarm cooldown (sec)", 0.5, 5.0, 1.5, 0.1)
 
-    st.header("Models")
-    use_dino = st.checkbox("Use GroundedDINO", value=True)
-    use_depth = st.checkbox("Use Depth Anything V2", value=False)
-    show_depth_overlay = st.checkbox("Show depth overlay", value=False)
-    use_sam2 = st.checkbox("Use SAM2 (optional)", value=False)
-    dino_interval = st.slider("DINO interval", 4, 20, 10)
-    depth_interval = st.slider("Depth interval", 4, 20, 10)
-
-    st.header("🔗 Dynamic Prompts (Cactus Integration)")
+    st.header("🔗 Dynamic Prompts (Integration)")
     prompt_options = _discover_dino_prompt_files()
     selected_prompt_source = st.selectbox(
         "DINO prompt source",
@@ -70,16 +62,27 @@ with st.sidebar:
              "Run the Cactus Narrator on a video first to generate dynamic prompts.",
     )
 
-    st.header("Corridor")
-    bottom_w = st.slider("Bottom width frac", 0.60, 0.95, 0.90, 0.01)
-    top_w = st.slider("Top width frac", 0.15, 0.60, 0.34, 0.01)
-    height_f = st.slider("Height frac", 0.35, 0.75, 0.64, 0.01)
-    center_x = st.slider("Center X frac", 0.20, 0.80, 0.50, 0.01)
+    with st.expander("Advanced Configuration", expanded=False):
+        st.subheader("Models")
+        use_dino = st.checkbox("Use GroundedDINO", value=True)
+        use_depth = st.checkbox("Use Depth Anything V2", value=False)
+        show_depth_overlay = st.checkbox("Show depth overlay", value=False)
+        use_sam2 = st.checkbox("Use SAM2 (optional)", value=False)
+        dino_interval = st.slider("DINO interval", 4, 20, 10)
+        depth_interval = st.slider("Depth interval", 4, 20, 10)
 
-    st.header("Thresholds")
-    occ_thresh = st.slider("Occupancy threshold", 0.005, 0.25, 0.015, 0.0025)
-    persistence_frames = st.slider("Persistence frames", 2, 10, 2)
-    blur_thresh = st.slider("Blur threshold (Laplacian var)", 20.0, 300.0, 20.0, 5.0)
+        st.subheader("Corridor Geometry")
+        bottom_w = st.slider("Bottom width frac", 0.60, 0.95, 0.90, 0.01)
+        top_w = st.slider("Top width frac", 0.15, 0.60, 0.34, 0.01)
+        height_f = st.slider("Height frac", 0.35, 0.75, 0.64, 0.01)
+        center_x = st.slider("Center X frac", 0.20, 0.80, 0.50, 0.01)
+
+        st.subheader("Event Thresholds")
+        occ_thresh = st.slider("Occupancy threshold", 0.005, 0.25, 0.015, 0.0025)
+        persistence_frames = st.slider("Persistence frames", 2, 10, 2)
+        blur_thresh = st.slider("Blur threshold (Laplacian var)", 20.0, 300.0, 20.0, 5.0)
+
+    st.divider()
     stop_flag = st.checkbox("Stop", value=False)
     start = st.button("Start")
 
