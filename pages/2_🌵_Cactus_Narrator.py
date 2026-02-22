@@ -387,6 +387,9 @@ elif input_source == "Video File" and uploaded_video is not None:
                         with open(dino_filename, "w") as f:
                             f.write(dino_text)
                         st.caption(f"Saved to `{dino_filename}`")
+                        # Sync to session_state so PathGuard HUD can auto-detect
+                        st.session_state["cactus_dino_prompt_text"] = dino_text
+                        st.session_state["cactus_dino_prompt_file"] = dino_filename
                     else:
                         st.error(f"Failed to generate DINO prompt: {dino_res.get('error')}")
                         
@@ -442,6 +445,9 @@ if input_source == "Live Webcam" and st.session_state.get("webcam_transcript"):
                             with open(dino_filename, "w") as f:
                                 f.write(dino_text)
                             st.caption(f"Saved to `{dino_filename}`")
+                            # Sync to session_state so PathGuard HUD can auto-detect
+                            st.session_state["cactus_dino_prompt_text"] = dino_text
+                            st.session_state["cactus_dino_prompt_file"] = dino_filename
                         except Exception as e:
                             st.error(f"Failed to save text artifact: {e}")
                     else:
