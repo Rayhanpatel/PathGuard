@@ -476,7 +476,7 @@ PathGuard/
 ├── run_combined.sh                  Launches full multipage Streamlit app
 ├── run_pathguard.sh                 Launches PathGuard HUD standalone
 ├── run_narrator.sh                  Launches Cactus Narrator standalone
-├── setup.sh                         Bootstrap script (see Known Issues — has stale references)
+├── setup.sh                         Bootstrap script (installs deps + launches app)
 ├── requirements_pathguard.txt       PathGuard HUD dependencies
 ├── requirements_narrator.txt        Cactus Narrator dependencies
 ├── .env.example                     API key template (GEMINI_API_KEY)
@@ -504,7 +504,7 @@ GroundedDINO and Depth Anything V2 download weights from Hugging Face on first r
 
 ### Cactus Narrator — macOS Apple Silicon
 
-> **Do not run `setup.sh` directly.** It has stale references that will fail. Use the manual steps below.
+> `setup.sh` automates `pip install` and launches the app. You can also follow the manual steps below for more control.
 
 ```bash
 # 1. Clone and build the Cactus C++ engine
