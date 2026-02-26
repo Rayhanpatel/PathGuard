@@ -1,6 +1,6 @@
 # PathGuard — On-Device Spatial Safety Intelligence
 
-> **Construction workers trip on hoses, cables, and debris they never saw coming. PathGuard watches the walking path in real time — raising an alarm before the fall happens — running entirely on-device, with no GPU required.**
+> **Construction workers trip on hoses, cables, and debris they never saw coming. PathGuard watches the walking path — raising an alarm before the fall happens. The classical CV safety floor runs on any CPU with no models loaded. GroundedDINO, Depth Anything V2, and an on-device VLM layer on top when available — every ML layer is optional.**
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)](https://github.com/Rayhanpatel/PathGuard)
@@ -414,7 +414,7 @@ The integration is **real but manually sequenced**. They do not run simultaneous
 
 ## Known Issues
 
-- **`setup.sh` has two broken references.** It runs `pip install -r requirements.txt` (file does not exist — should be `requirements_pathguard.txt` and `requirements_narrator.txt`) and its completion message says `./run_app.sh` (should be `./run_combined.sh`). **Use the manual install commands in [Installation](#installation) instead.**
+- **~~`setup.sh` has two broken references.~~** *(Fixed — requirements and run command references corrected.)*
 - **Do not use `cactus download` from Homebrew.** The pre-compiled zip files on HuggingFace are missing the `projector_layer_norm` tensor, causing a silent crash during model initialization. Use `scripts/download_models.sh` instead — it forces local reconversion from raw float32 checkpoints. This is documented in the script header.
 - **SAM2 is not installed by default.** The package is commented out in `requirements_pathguard.txt`. The box rasterization fallback is always active in a standard install.
 - **No MPS support.** On macOS Apple Silicon, GroundedDINO and Depth Anything V2 fall back to CPU because `realtime.py` hardcodes `device="cuda"` and neither `depth.py` nor `detect.py` has a `torch.device("mps")` branch.
@@ -586,7 +586,7 @@ Opens at `http://localhost:8501`.
 - **RTSP / live camera source** *(Easy)* — `cv2.VideoCapture` already accepts RTSP URLs. No architectural change needed.
 - **MPS device support** *(Easy)* — Add `torch.device("mps")` branch in `depth.py` and `detect.py` for Apple Silicon GPU acceleration.
 - **Wire `dominant_direction()` into the pipeline** *(Easy)* — `corridor.py` already implements LEFT/CENTER/RIGHT band analysis. Connecting it to the state machine enables directional alerting.
-- **Fix `setup.sh`** *(Easy)* — Replace `requirements.txt` with the two correct filenames; replace `./run_app.sh` with `./run_combined.sh`.
+- ~~**Fix `setup.sh`** *(Easy)*~~ — ✅ Done. Requirements and run command references corrected.
 - **Fix trip risk gate** *(Easy)* — Move the `trip_component_area` check before the `min_component_area` continue, so that thin elongated components between 180–250px can independently trigger trip warnings.
 - **Haptic/wearable alerting** *(Easy)* — Replace audio beep with vibration patterns for noisy job sites.
 - **Enable SAM2** *(Medium)* — Uncomment in requirements and follow SAM2 install docs. The wrapper is already written.
