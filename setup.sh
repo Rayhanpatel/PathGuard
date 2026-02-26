@@ -73,7 +73,8 @@ fi
 
 source .venv/bin/activate
 pip install --upgrade pip -q
-pip install -r requirements.txt -q
+pip install -r requirements_pathguard.txt -q
+pip install -r requirements_narrator.txt -q
 
 echo "  ✅ All Python dependencies installed."
 echo ""
@@ -137,7 +138,7 @@ echo "  🎉 Setup Complete!"
 echo "============================================="
 echo ""
 echo "  Launch the application with:"
-echo "    ./run_app.sh"
+echo "    ./run_combined.sh"
 echo ""
 echo "  The app will open at: http://localhost:8501"
 echo "============================================="

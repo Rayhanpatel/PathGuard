@@ -22,6 +22,7 @@ tmp_frames/
 outputs/
 results/
 *.log
+Internal_documentation/
 
 # Large Datasets and AI Weights
 weights/
