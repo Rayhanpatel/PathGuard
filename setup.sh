@@ -15,7 +15,7 @@ set -euo pipefail
 #   chmod +x setup.sh && ./setup.sh
 #
 # After setup completes, launch the app with:
-#   ./run_app.sh
+#   ./run_combined.sh
 # ============================================================================
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
